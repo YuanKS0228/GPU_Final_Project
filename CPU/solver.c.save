@@ -1,0 +1,69 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+
+#define R_GAS 1
+#define K 1.4
+#define D 1.4
+#define P 1.0
+#define L 3.0
+#define H 1.0
+#define NX 300
+#define NY 100
+#define DX L/NX
+#define DY H/NY
+#define DT 0.0001
+#define T_TARGET 4.0
+#define STEP T_TARGET/DT
+
+float my_rand(){
+	return (float)rand()/RAND_MAX;
+}
+void compute(float *cell,float *s_cell,float *vx,float *vy,float *p,float *d){
+
+int main() {
+	float *cell,*s_cell,*vx,*vy,*p,*d;
+	cell=(float*)malloc((NX+2)*(NY+2)*sizeof(float));
+	vx=(float*)malloc((NX+2)*(NY+2)*sizeof(float));
+	vy=(float*)malloc((NX+2)*(NY+2)*sizeof(float));
+	p=(float*)malloc((NX+2)*(NY+2)*sizeof(float));
+	d=(float*)malloc((NX+2)*(NY+2)*sizeof(float));
+	s_cell=(float*)malloc((NX+2)*(NY+2)*sizeof(float));
+
+	//define cell
+	for(int i=0;i<NX+2;i++){
+		for(int j=0;j<NY+2;j++){
+			int index=i*(NY+2)+j;
+			float cx=(0.5+i)*DX;
+			float cy=(0.5+j)*DY;
+			cell[index]=0;
+			s_cell[index]=0;
+			if(cx>0.6 && cx<3.0 && cy>0 && cy<0.2){
+				s_cell[index]=1;
+			}
+		}
+	}
+
+	for(int i=0;i<STEP;i++){
+
+		//initial condition
+		for(int j=0;j<NX+2;j++){
+			for(int k=0;k<NY+2;k++){
+                        int index=j*(NY+2)+k;
+			//inflow
+			p[k]=1.0;
+			d[k]=1.4;
+			vx[k]=3.0;
+			vy[k]=0.0;
+
+			//outflow
+			d[(NX+1)*(NY+2)+k]=d[NX*(NY+2)+k]
+			vx[(NX+1)*(NY+2)+k]=vx[NX*(NY+2)+k];
+                        vy[(NX+1)*(NY+2)+k]=vy[NX*(NY+2)+k];
+			}
+		}
+	}
+
+	printf("Hello\n");
+return 0;
+}
